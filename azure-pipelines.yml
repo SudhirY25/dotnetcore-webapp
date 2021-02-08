@@ -7,28 +7,25 @@ trigger:
 - master
 
 pool:
-  vmImage: 'windows-latest'
+  vmImage: 'windows-2019'
 
 steps:
 - task: DotNetCoreCLI@2
-  displayName: 'Restore'
   inputs:
     command: 'restore'
     projects: 'dotnetcore-webapp.csproj'
     feedsToUse: 'select'
+    vstsFeed: 'dcd7294e-6d52-4a05-82f9-a059df22d3d6'
 - task: DotNetCoreCLI@2
-  displayName: 'build'
   inputs:
     command: 'build'
     projects: 'dotnetcore-webapp.csproj'
 - task: DotNetCoreCLI@2
-  displayName: 'publish'
   inputs:
     command: 'publish'
     publishWebProjects: true
 - task: PublishBuildArtifacts@1
-  displayName: 'artifacts'
   inputs:
-    PathtoPublish: '$(Build.SourcesDirectory)'
+    PathtoPublish: '$(Build.ArtifactSourceDirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
